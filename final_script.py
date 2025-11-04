@@ -11,7 +11,7 @@ RETRY_DELAY = 0.3  # seconds between retries
 
 # --- QR scanner ---
 def scan_qr():
-    print("📷 Show the QR code to the webcam (ESC to cancel)...")
+    print(" Show the QR code to the webcam (ESC to cancel)...")
     cap = cv2.VideoCapture(0)
     url = None
     while True:
@@ -20,7 +20,7 @@ def scan_qr():
             continue
         for qr in decode(frame):
             url = qr.data.decode("utf-8")
-            print(f"✅ QR detected:\n{url}")
+            print(f" QR detected:\n{url}")
             cap.release()
             cv2.destroyAllWindows()
             return url
@@ -71,10 +71,10 @@ def send_checkin(url, temp, hum):
             print("Server response:", data)
             print("Status:", data.get("status", "UNKNOWN"))
         except ValueError:
-            print("❌ Server did not return valid JSON:")
+            print(" Server did not return valid JSON:")
             print(r.text[:200])
     except requests.exceptions.RequestException as e:
-        print("❌ HTTP error:", e)
+        print(" HTTP error:", e)
 
 # --- Main ---
 def main():
@@ -86,11 +86,12 @@ def main():
     # Immediately get the latest sensor reading
     temp, hum = get_latest_sensor_reading()
     if temp is None or hum is None:
-        print("❌ Could not read sensor data from Hub after retries.")
+        print(" Could not read sensor data from Hub after retries.")
         return
 
-    print(f"🌡️ Temperature: {temp:.2f}°C | 💧 Humidity: {hum:.2f}%")
+    print(f" Temperature: {temp:.2f}°C |  Humidity: {hum:.2f}%")
     send_checkin(qr_url, temp, hum)
 
 if __name__ == "__main__":
     main()
+
